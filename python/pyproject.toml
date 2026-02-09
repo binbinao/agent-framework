@@ -104,6 +104,8 @@ agent-framework-purview = { workspace = true }
 agent-framework-redis = { workspace = true }
 agent-framework-github-copilot = { workspace = true }
 agent-framework-claude = { workspace = true }
+agent-framework-hunyuan-ai-openai = { workspace = true }
+agent-framework-hunyuan-ai-anthropic = { workspace = true }
 agent-framework-orchestrations = { workspace = true }
 
 [tool.ruff]
