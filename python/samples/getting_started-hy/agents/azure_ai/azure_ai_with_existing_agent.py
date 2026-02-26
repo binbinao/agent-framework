@@ -5,7 +5,7 @@ import os
 
 from agent_framework.azure import AzureAIProjectAgentProvider
 from azure.ai.projects.aio import AIProjectClient
-from azure.ai.projects.models import PromptAgentDefinition
+from azure.ai.projects.models import PromptAgentDefinition  # type: ignore[attr-defined]
 from azure.identity.aio import AzureCliCredential
 
 """
@@ -25,7 +25,7 @@ async def using_provider_get_agent() -> None:
         AIProjectClient(endpoint=os.environ["AZURE_AI_PROJECT_ENDPOINT"], credential=credential) as project_client,
     ):
         # Create remote agent using SDK directly
-        azure_ai_agent = await project_client.agents.create_version(
+        azure_ai_agent = await project_client.agents.create_version(  # type: ignore[attr-defined]
             agent_name="MyNewTestAgent",
             description="Agent for testing purposes.",
             definition=PromptAgentDefinition(
@@ -53,7 +53,7 @@ async def using_provider_get_agent() -> None:
             print(f"Agent: {result}\n")
         finally:
             # Clean up the agent manually
-            await project_client.agents.delete_version(
+            await project_client.agents.delete_version(  # type: ignore[attr-defined]
                 agent_name=azure_ai_agent.name, agent_version=azure_ai_agent.version
             )
 

@@ -15,10 +15,18 @@ from agent_framework import (
     tool,
 )
 from agent_framework.exceptions import ServiceInitializationError
-from azure.ai.agents.models import (
-    Agent,
-    CodeInterpreterToolDefinition,
-)
+
+try:
+    from azure.ai.agents.models import (
+        Agent,
+        CodeInterpreterToolDefinition,
+    )
+
+    _azure_ai_types_available = True
+except (ImportError, AttributeError):
+    _azure_ai_types_available = False
+    pytest.skip("Azure AI types not available in current SDK version", allow_module_level=True)
+
 from azure.identity.aio import AzureCliCredential
 from pydantic import BaseModel
 

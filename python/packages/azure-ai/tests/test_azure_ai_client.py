@@ -26,15 +26,23 @@ from agent_framework import (
 )
 from agent_framework.exceptions import ServiceInitializationError
 from azure.ai.projects.aio import AIProjectClient
-from azure.ai.projects.models import (
-    ApproximateLocation,
-    CodeInterpreterTool,
-    CodeInterpreterToolAuto,
-    FileSearchTool,
-    MCPTool,
-    ResponseTextFormatConfigurationJsonSchema,
-    WebSearchPreviewTool,
-)
+
+try:
+    from azure.ai.projects.models import (
+        ApproximateLocation,
+        CodeInterpreterTool,
+        CodeInterpreterToolAuto,
+        FileSearchTool,
+        MCPTool,
+        ResponseTextFormatConfigurationJsonSchema,
+        WebSearchPreviewTool,
+    )
+
+    _azure_ai_types_available = True
+except (ImportError, AttributeError):
+    _azure_ai_types_available = False
+    pytest.skip("Azure AI types not available in current SDK version", allow_module_level=True)
+
 from azure.core.exceptions import ResourceNotFoundError
 from azure.identity.aio import AzureCliCredential
 from openai.types.responses.parsed_response import ParsedResponse

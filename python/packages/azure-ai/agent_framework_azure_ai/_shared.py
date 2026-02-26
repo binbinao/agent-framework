@@ -17,33 +17,62 @@ from agent_framework import (
 )
 from agent_framework._pydantic import AFBaseSettings
 from agent_framework.exceptions import ServiceInitializationError, ServiceInvalidRequestError
-from azure.ai.agents.models import (
-    BingCustomSearchTool,
-    BingGroundingTool,
-    CodeInterpreterToolDefinition,
-    McpTool,
-    ToolDefinition,
-)
-from azure.ai.agents.models import FileSearchTool as AgentsFileSearchTool
-from azure.ai.projects.models import (
-    ApproximateLocation,
-    CodeInterpreterTool,
-    CodeInterpreterToolAuto,
-    ImageGenTool,
-    ImageGenToolInputImageMask,
-    MCPTool,
-    ResponseTextFormatConfigurationJsonObject,
-    ResponseTextFormatConfigurationJsonSchema,
-    ResponseTextFormatConfigurationText,
-    Tool,
-    WebSearchPreviewTool,
-)
-from azure.ai.projects.models import (
-    FileSearchTool as ProjectsFileSearchTool,
-)
-from azure.ai.projects.models import (
-    FunctionTool as AzureFunctionTool,
-)
+
+# Some Azure AI agent types may not be available in all SDK versions
+try:
+    from azure.ai.agents.models import (  # type: ignore[attr-defined]
+        BingCustomSearchTool,
+        BingGroundingTool,
+        CodeInterpreterToolDefinition,
+        McpTool,
+        ToolDefinition,
+    )
+    from azure.ai.agents.models import FileSearchTool as AgentsFileSearchTool
+except (ImportError, AttributeError):
+    # Placeholders for when SDK doesn't have these types
+    BingCustomSearchTool = None  # type: ignore[misc,assignment]
+    BingGroundingTool = None  # type: ignore[misc,assignment]
+    CodeInterpreterToolDefinition = None  # type: ignore[misc,assignment]
+    McpTool = None  # type: ignore[misc,assignment]
+    ToolDefinition = None  # type: ignore[misc,assignment]
+    AgentsFileSearchTool = None  # type: ignore[misc,assignment]
+
+# Some Azure AI projects types may not be available in all SDK versions
+try:
+    from azure.ai.projects.models import (  # type: ignore[attr-defined]
+        ApproximateLocation,
+        CodeInterpreterTool,
+        CodeInterpreterToolAuto,
+        ImageGenTool,
+        ImageGenToolInputImageMask,
+        MCPTool,
+        ResponseTextFormatConfigurationJsonObject,
+        ResponseTextFormatConfigurationJsonSchema,
+        ResponseTextFormatConfigurationText,
+        Tool,
+        WebSearchPreviewTool,
+    )
+    from azure.ai.projects.models import (  # type: ignore[attr-defined]
+        FileSearchTool as ProjectsFileSearchTool,
+    )
+    from azure.ai.projects.models import (  # type: ignore[attr-defined]
+        FunctionTool as AzureFunctionTool,
+    )
+except (ImportError, AttributeError):
+    # Placeholders for when SDK doesn't have these types
+    ApproximateLocation = None  # type: ignore[misc,assignment]
+    CodeInterpreterTool = None  # type: ignore[misc,assignment]
+    CodeInterpreterToolAuto = None  # type: ignore[misc,assignment]
+    ImageGenTool = None  # type: ignore[misc,assignment]
+    ImageGenToolInputImageMask = None  # type: ignore[misc,assignment]
+    MCPTool = None  # type: ignore[misc,assignment]
+    ResponseTextFormatConfigurationJsonObject = None  # type: ignore[misc,assignment]
+    ResponseTextFormatConfigurationJsonSchema = None  # type: ignore[misc,assignment]
+    ResponseTextFormatConfigurationText = None  # type: ignore[misc,assignment]
+    Tool = None  # type: ignore[misc,assignment]
+    WebSearchPreviewTool = None  # type: ignore[misc,assignment]
+    ProjectsFileSearchTool = None  # type: ignore[misc,assignment]
+    AzureFunctionTool = None  # type: ignore[misc,assignment]
 from pydantic import BaseModel
 
 logger = get_logger("agent_framework.azure")

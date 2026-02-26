@@ -3,7 +3,7 @@
 import asyncio
 
 from agent_framework.azure import AzureAIProjectAgentProvider
-from azure.ai.projects.models import Reasoning
+from azure.ai.projects.models import Reasoning  # type: ignore[attr-defined]
 from azure.identity.aio import AzureCliCredential
 
 """

@@ -41,7 +41,9 @@ from agent_framework import (
 from agent_framework.exceptions import ServiceInitializationError, ServiceInvalidRequestError, ServiceResponseException
 from agent_framework.observability import ChatTelemetryLayer
 from azure.ai.agents.aio import AgentsClient
-from azure.ai.agents.models import (
+
+# Some Azure AI agent types may not be in type stubs yet
+from azure.ai.agents.models import (  # type: ignore[attr-defined]
     Agent,
     AgentsNamedToolChoice,
     AgentsNamedToolChoiceType,

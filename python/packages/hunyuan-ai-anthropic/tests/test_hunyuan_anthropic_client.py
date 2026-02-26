@@ -44,9 +44,11 @@ class TestHunyuanAnthropicClient:
 
     def test_init_without_api_key_raises(self) -> None:
         """测试缺少 API 密钥时应抛出 ServiceInitializationError。"""
-        with patch.dict(os.environ, {}, clear=True):
-            with pytest.raises(ServiceInitializationError, match="Hunyuan API key is required"):
-                HunyuanAnthropicClient()
+        with (
+            patch.dict(os.environ, {}, clear=True),
+            pytest.raises(ServiceInitializationError, match="Hunyuan API key is required"),
+        ):
+            HunyuanAnthropicClient()
 
     def test_init_with_api_key(self) -> None:
         """测试使用 API 密钥初始化。"""

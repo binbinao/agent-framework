@@ -14,19 +14,7 @@ from azure.core.credentials_async import AsyncTokenCredential
 from azure.core.exceptions import ResourceNotFoundError
 from azure.search.documents.aio import SearchClient
 from azure.search.documents.indexes.aio import SearchIndexClient
-from azure.search.documents.indexes.models import (
-    AzureOpenAIVectorizerParameters,
-    KnowledgeBase,
-    KnowledgeBaseAzureOpenAIModel,
-    KnowledgeRetrievalLowReasoningEffort,
-    KnowledgeRetrievalMediumReasoningEffort,
-    KnowledgeRetrievalMinimalReasoningEffort,
-    KnowledgeRetrievalOutputMode,
-    KnowledgeRetrievalReasoningEffort,
-    KnowledgeSourceReference,
-    SearchIndexKnowledgeSource,
-    SearchIndexKnowledgeSourceParameters,
-)
+from azure.search.documents.indexes.models import AzureOpenAIVectorizerParameters
 from azure.search.documents.models import (
     QueryCaptionType,
     QueryType,
@@ -35,34 +23,21 @@ from azure.search.documents.models import (
 )
 from pydantic import SecretStr, ValidationError
 
-# Type checking imports for optional agentic mode dependencies
-if TYPE_CHECKING:
-    from azure.search.documents.knowledgebases.aio import KnowledgeBaseRetrievalClient
-    from azure.search.documents.knowledgebases.models import (
-        KnowledgeBaseMessage,
-        KnowledgeBaseMessageTextContent,
-        KnowledgeBaseRetrievalRequest,
-        KnowledgeRetrievalIntent,
-        KnowledgeRetrievalSemanticIntent,
-    )
-    from azure.search.documents.knowledgebases.models import (
-        KnowledgeRetrievalLowReasoningEffort as KBRetrievalLowReasoningEffort,
-    )
-    from azure.search.documents.knowledgebases.models import (
-        KnowledgeRetrievalMediumReasoningEffort as KBRetrievalMediumReasoningEffort,
-    )
-    from azure.search.documents.knowledgebases.models import (
-        KnowledgeRetrievalMinimalReasoningEffort as KBRetrievalMinimalReasoningEffort,
-    )
-    from azure.search.documents.knowledgebases.models import (
-        KnowledgeRetrievalOutputMode as KBRetrievalOutputMode,
-    )
-    from azure.search.documents.knowledgebases.models import (
-        KnowledgeRetrievalReasoningEffort as KBRetrievalReasoningEffort,
-    )
-
 # Runtime imports for agentic mode (optional dependency)
+# These imports may fail if the Azure SDK doesn't have Knowledge Base support yet
 try:
+    from azure.search.documents.indexes.models import (  # type: ignore[attr-defined]
+        KnowledgeBase,
+        KnowledgeBaseAzureOpenAIModel,
+        KnowledgeRetrievalLowReasoningEffort,
+        KnowledgeRetrievalMediumReasoningEffort,
+        KnowledgeRetrievalMinimalReasoningEffort,
+        KnowledgeRetrievalOutputMode,
+        KnowledgeRetrievalReasoningEffort,
+        KnowledgeSourceReference,
+        SearchIndexKnowledgeSource,
+        SearchIndexKnowledgeSourceParameters,
+    )
     from azure.search.documents.knowledgebases.aio import KnowledgeBaseRetrievalClient
     from azure.search.documents.knowledgebases.models import (
         KnowledgeBaseMessage,
@@ -88,8 +63,68 @@ try:
     )
 
     _agentic_retrieval_available = True
-except ImportError:
+except (ImportError, AttributeError):
+    # If imports fail, set placeholders for type checking
     _agentic_retrieval_available = False
+    if TYPE_CHECKING:
+        from azure.search.documents.indexes.models import (  # type: ignore[attr-defined]
+            KnowledgeBase,
+            KnowledgeBaseAzureOpenAIModel,
+            KnowledgeRetrievalLowReasoningEffort,
+            KnowledgeRetrievalMediumReasoningEffort,
+            KnowledgeRetrievalMinimalReasoningEffort,
+            KnowledgeRetrievalOutputMode,
+            KnowledgeRetrievalReasoningEffort,
+            KnowledgeSourceReference,
+            SearchIndexKnowledgeSource,
+            SearchIndexKnowledgeSourceParameters,
+        )
+        from azure.search.documents.knowledgebases.aio import KnowledgeBaseRetrievalClient
+        from azure.search.documents.knowledgebases.models import (
+            KnowledgeBaseMessage,
+            KnowledgeBaseMessageTextContent,
+            KnowledgeBaseRetrievalRequest,
+            KnowledgeRetrievalIntent,
+            KnowledgeRetrievalSemanticIntent,
+        )
+        from azure.search.documents.knowledgebases.models import (
+            KnowledgeRetrievalLowReasoningEffort as KBRetrievalLowReasoningEffort,
+        )
+        from azure.search.documents.knowledgebases.models import (
+            KnowledgeRetrievalMediumReasoningEffort as KBRetrievalMediumReasoningEffort,
+        )
+        from azure.search.documents.knowledgebases.models import (
+            KnowledgeRetrievalMinimalReasoningEffort as KBRetrievalMinimalReasoningEffort,
+        )
+        from azure.search.documents.knowledgebases.models import (
+            KnowledgeRetrievalOutputMode as KBRetrievalOutputMode,
+        )
+        from azure.search.documents.knowledgebases.models import (
+            KnowledgeRetrievalReasoningEffort as KBRetrievalReasoningEffort,
+        )
+    else:
+        # Create dummy placeholders for runtime use (e.g., in tests with mocks)
+        KnowledgeBase = None  # type: ignore[misc,assignment]
+        KnowledgeBaseAzureOpenAIModel = None  # type: ignore[misc,assignment]
+        KnowledgeRetrievalLowReasoningEffort = None  # type: ignore[misc,assignment]
+        KnowledgeRetrievalMediumReasoningEffort = None  # type: ignore[misc,assignment]
+        KnowledgeRetrievalMinimalReasoningEffort = None  # type: ignore[misc,assignment]
+        KnowledgeRetrievalOutputMode = None  # type: ignore[misc,assignment]
+        KnowledgeRetrievalReasoningEffort = None  # type: ignore[misc,assignment]
+        KnowledgeSourceReference = None  # type: ignore[misc,assignment]
+        SearchIndexKnowledgeSource = None  # type: ignore[misc,assignment]
+        SearchIndexKnowledgeSourceParameters = None  # type: ignore[misc,assignment]
+        KnowledgeBaseRetrievalClient = None  # type: ignore[misc,assignment]
+        KnowledgeBaseMessage = None  # type: ignore[misc,assignment]
+        KnowledgeBaseMessageTextContent = None  # type: ignore[misc,assignment]
+        KnowledgeBaseRetrievalRequest = None  # type: ignore[misc,assignment]
+        KnowledgeRetrievalIntent = None  # type: ignore[misc,assignment]
+        KnowledgeRetrievalSemanticIntent = None  # type: ignore[misc,assignment]
+        KBRetrievalLowReasoningEffort = None  # type: ignore[misc,assignment]
+        KBRetrievalMediumReasoningEffort = None  # type: ignore[misc,assignment]
+        KBRetrievalMinimalReasoningEffort = None  # type: ignore[misc,assignment]
+        KBRetrievalOutputMode = None  # type: ignore[misc,assignment]
+        KBRetrievalReasoningEffort = None  # type: ignore[misc,assignment]
 
 if sys.version_info >= (3, 12):
     from typing import override  # type: ignore # pragma: no cover
@@ -812,7 +847,7 @@ class AzureAISearchContextProvider(ContextProvider):
 
         try:
             # Try to get existing knowledge source
-            await self._index_client.get_knowledge_source(knowledge_source_name)
+            await self._index_client.get_knowledge_source(knowledge_source_name)  # type: ignore[attr-defined]
         except ResourceNotFoundError:
             # Create new knowledge source if it doesn't exist
             knowledge_source = SearchIndexKnowledgeSource(
@@ -822,7 +857,7 @@ class AzureAISearchContextProvider(ContextProvider):
                     search_index_name=self.index_name,
                 ),
             )
-            await self._index_client.create_knowledge_source(knowledge_source)
+            await self._index_client.create_knowledge_source(knowledge_source)  # type: ignore[attr-defined]
 
         # Step 2: Create or update Knowledge Base
         # Always create/update to ensure configuration is current
@@ -860,7 +895,7 @@ class AzureAISearchContextProvider(ContextProvider):
             output_mode=output_mode,
             retrieval_reasoning_effort=reasoning_effort,
         )
-        await self._index_client.create_or_update_knowledge_base(knowledge_base)
+        await self._index_client.create_or_update_knowledge_base(knowledge_base)  # type: ignore[attr-defined]
 
         self._knowledge_base_initialized = True
 

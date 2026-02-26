@@ -24,7 +24,15 @@ from agent_framework.observability import ChatTelemetryLayer
 from agent_framework.openai import OpenAIResponsesOptions
 from agent_framework.openai._responses_client import RawOpenAIResponsesClient
 from azure.ai.projects.aio import AIProjectClient
-from azure.ai.projects.models import MCPTool, PromptAgentDefinition, PromptAgentDefinitionText, RaiConfig, Reasoning
+
+# Some Azure AI projects types may not be in type stubs yet
+from azure.ai.projects.models import (  # type: ignore[attr-defined]
+    MCPTool,
+    PromptAgentDefinition,
+    PromptAgentDefinitionText,
+    RaiConfig,
+    Reasoning,
+)
 from azure.core.credentials_async import AsyncTokenCredential
 from azure.core.exceptions import ResourceNotFoundError
 from pydantic import ValidationError
@@ -335,7 +343,7 @@ class RawAzureAIClient(RawOpenAIResponsesClient[TAzureAIClientOptions], Generic[
             # Try to use latest version if requested and agent exists
             if self.use_latest_version:
                 try:
-                    existing_agent = await self.project_client.agents.get(self.agent_name)
+                    existing_agent = await self.project_client.agents.get(self.agent_name)  # type: ignore[attr-defined]
                     self.agent_version = existing_agent.versions.latest.version
                     return {"name": self.agent_name, "version": self.agent_version, "type": "agent_reference"}
                 except ResourceNotFoundError:
@@ -376,7 +384,7 @@ class RawAzureAIClient(RawOpenAIResponsesClient[TAzureAIClientOptions], Generic[
             if combined_instructions:
                 args["instructions"] = "".join(combined_instructions)
 
-            created_agent = await self.project_client.agents.create_version(
+            created_agent = await self.project_client.agents.create_version(  # type: ignore[attr-defined]
                 agent_name=self.agent_name,
                 definition=PromptAgentDefinition(**args),
                 description=self.agent_description,

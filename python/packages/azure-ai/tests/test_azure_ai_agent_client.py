@@ -26,26 +26,34 @@ from agent_framework import (
 )
 from agent_framework._serialization import SerializationMixin
 from agent_framework.exceptions import ServiceInitializationError, ServiceInvalidRequestError
-from azure.ai.agents.models import (
-    AgentsNamedToolChoice,
-    AgentsNamedToolChoiceType,
-    AgentsToolChoiceOptionMode,
-    CodeInterpreterToolDefinition,
-    FileInfo,
-    MessageDeltaChunk,
-    MessageDeltaTextContent,
-    MessageDeltaTextFileCitationAnnotation,
-    MessageDeltaTextFilePathAnnotation,
-    MessageDeltaTextUrlCitationAnnotation,
-    MessageInputTextBlock,
-    RequiredFunctionToolCall,
-    RequiredMcpToolCall,
-    RunStatus,
-    SubmitToolApprovalAction,
-    SubmitToolOutputsAction,
-    ThreadRun,
-    VectorStore,
-)
+
+try:
+    from azure.ai.agents.models import (
+        AgentsNamedToolChoice,
+        AgentsNamedToolChoiceType,
+        AgentsToolChoiceOptionMode,
+        CodeInterpreterToolDefinition,
+        FileInfo,
+        MessageDeltaChunk,
+        MessageDeltaTextContent,
+        MessageDeltaTextFileCitationAnnotation,
+        MessageDeltaTextFilePathAnnotation,
+        MessageDeltaTextUrlCitationAnnotation,
+        MessageInputTextBlock,
+        RequiredFunctionToolCall,
+        RequiredMcpToolCall,
+        RunStatus,
+        SubmitToolApprovalAction,
+        SubmitToolOutputsAction,
+        ThreadRun,
+        VectorStore,
+    )
+
+    _azure_ai_types_available = True
+except (ImportError, AttributeError):
+    _azure_ai_types_available = False
+    pytest.skip("Azure AI types not available in current SDK version", allow_module_level=True)
+
 from azure.core.credentials_async import AsyncTokenCredential
 from azure.identity.aio import AzureCliCredential
 from pydantic import BaseModel, Field, ValidationError

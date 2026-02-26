@@ -2,7 +2,17 @@
 from typing import Any
 from unittest.mock import AsyncMock, MagicMock
 
+import pytest
 from pytest import fixture
+
+# Check if Azure AI types are available
+try:
+    from agent_framework_azure_ai import AzureAIAgentClient  # noqa: F401
+
+    _can_run_tests = True
+except ImportError:
+    _can_run_tests = False
+    pytest.skip("Azure AI types not available in current SDK version", allow_module_level=True)
 
 
 @fixture

@@ -11,6 +11,8 @@ from agent_framework.exceptions import ServiceInitializationError
 from azure.core.credentials import AzureKeyCredential
 from azure.core.exceptions import ResourceNotFoundError
 
+from agent_framework_azure_ai_search._search_provider import _agentic_retrieval_available
+
 
 @pytest.fixture
 def mock_search_client() -> AsyncMock:
@@ -148,6 +150,7 @@ class TestSearchProviderInitialization:
                 vector_field_name="embedding",
             )
 
+    @pytest.mark.skipif(not _agentic_retrieval_available, reason="Agentic retrieval not available")
     def test_init_agentic_mode_with_kb_only(self) -> None:
         """Test agentic mode with existing knowledge_base_name (simplest path)."""
         # Clear environment to ensure no env vars interfere
@@ -180,6 +183,7 @@ class TestSearchProviderInitialization:
                 env_file_path="",  # Disable .env file loading
             )
 
+    @pytest.mark.skipif(not _agentic_retrieval_available, reason="Agentic retrieval not available")
     def test_init_agentic_mode_with_index_and_model(self) -> None:
         """Test agentic mode with index_name (auto-create KB path)."""
         # Clear environment to ensure no env vars interfere
@@ -233,6 +237,7 @@ class TestSearchProviderInitialization:
                 env_file_path="",  # Disable .env file loading
             )
 
+    @pytest.mark.skipif(not _agentic_retrieval_available, reason="Agentic retrieval not available")
     def test_init_model_name_defaults_to_deployment_name(self) -> None:
         """Test that model_name defaults to deployment_name if not provided."""
         # Clear environment to ensure no env vars interfere
@@ -357,6 +362,7 @@ class TestSemanticSearch:
         mock_search_client.search.assert_called_once()
 
 
+@pytest.mark.skipif(not _agentic_retrieval_available, reason="Agentic retrieval not available")
 class TestKnowledgeBaseSetup:
     """Test Knowledge Base setup for agentic mode."""
 
@@ -452,6 +458,7 @@ class TestContextProviderLifecycle:
             assert isinstance(provider, AzureAISearchContextProvider)
 
     @pytest.mark.asyncio
+    @pytest.mark.skipif(not _agentic_retrieval_available, reason="Agentic retrieval not available")
     @patch("agent_framework_azure_ai_search._search_provider.KnowledgeBaseRetrievalClient")
     @patch("agent_framework_azure_ai_search._search_provider.SearchIndexClient")
     @patch("agent_framework_azure_ai_search._search_provider.SearchClient")
@@ -591,6 +598,7 @@ class TestCitations:
         assert "Test document content" in context.messages[1].text
 
 
+@pytest.mark.skipif(not _agentic_retrieval_available, reason="Agentic retrieval not available")
 class TestAgenticSearch:
     """Test agentic search functionality."""
 

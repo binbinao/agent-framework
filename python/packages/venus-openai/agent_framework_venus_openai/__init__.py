@@ -1,0 +1,17 @@
+# Copyright (c) Microsoft. All rights reserved.
+
+import importlib.metadata
+
+from ._chat_client import VenusOpenAIChatClient, VenusOpenAIChatOptions, VenusOpenAISettings
+
+try:
+    __version__ = importlib.metadata.version(__name__)
+except importlib.metadata.PackageNotFoundError:
+    __version__ = "0.0.0"
+
+__all__ = [
+    "VenusOpenAIChatClient",
+    "VenusOpenAIChatOptions",
+    "VenusOpenAISettings",
+    "__version__",
+]

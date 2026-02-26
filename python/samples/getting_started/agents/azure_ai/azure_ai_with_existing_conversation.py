@@ -36,7 +36,7 @@ async def example_with_conversation_id() -> None:
     ):
         # Create a conversation using OpenAI client
         openai_client = project_client.get_openai_client()
-        conversation = await openai_client.conversations.create()
+        conversation = await openai_client.conversations.create()  # type: ignore[attr-defined]
         conversation_id = conversation.id
         print(f"Conversation ID: {conversation_id}")
 
@@ -75,7 +75,7 @@ async def example_with_thread() -> None:
 
         # Create a conversation using OpenAI client
         openai_client = project_client.get_openai_client()
-        conversation = await openai_client.conversations.create()
+        conversation = await openai_client.conversations.create()  # type: ignore[attr-defined]
         conversation_id = conversation.id
         print(f"Conversation ID: {conversation_id}")
 

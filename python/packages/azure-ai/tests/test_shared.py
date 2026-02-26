@@ -14,7 +14,15 @@ from agent_framework import (
     HostedWebSearchTool,
 )
 from agent_framework.exceptions import ServiceInitializationError, ServiceInvalidRequestError
-from azure.ai.agents.models import CodeInterpreterToolDefinition
+
+try:
+    from azure.ai.agents.models import CodeInterpreterToolDefinition
+
+    _azure_ai_types_available = True
+except (ImportError, AttributeError):
+    _azure_ai_types_available = False
+    pytest.skip("Azure AI types not available in current SDK version", allow_module_level=True)
+
 from pydantic import BaseModel
 
 from agent_framework_azure_ai._shared import (

@@ -17,13 +17,15 @@ from agent_framework import (
 from agent_framework._mcp import MCPTool
 from agent_framework.exceptions import ServiceInitializationError
 from azure.ai.projects.aio import AIProjectClient
-from azure.ai.projects.models import (
+
+# Some Azure AI projects types may not be in type stubs yet
+from azure.ai.projects.models import (  # type: ignore[attr-defined]
     AgentReference,
     AgentVersionDetails,
     PromptAgentDefinition,
     PromptAgentDefinitionText,
 )
-from azure.ai.projects.models import (
+from azure.ai.projects.models import (  # type: ignore[attr-defined]
     FunctionTool as AzureFunctionTool,
 )
 from azure.core.credentials_async import AsyncTokenCredential
@@ -243,7 +245,7 @@ class AzureAIProjectAgentProvider(Generic[TOptions_co]):
         if all_tools_for_azure:
             args["tools"] = to_azure_ai_tools(all_tools_for_azure)
 
-        created_agent = await self._project_client.agents.create_version(
+        created_agent = await self._project_client.agents.create_version(  # type: ignore[attr-defined]
             agent_name=name,
             definition=PromptAgentDefinition(**args),
             description=description,
@@ -295,12 +297,12 @@ class AzureAIProjectAgentProvider(Generic[TOptions_co]):
 
         if reference and reference.version:
             # Fetch specific version
-            existing_agent = await self._project_client.agents.get_version(
+            existing_agent = await self._project_client.agents.get_version(  # type: ignore[attr-defined]
                 agent_name=reference.name, agent_version=reference.version
             )
         elif agent_name := (reference.name if reference else name):
             # Fetch latest version
-            details = await self._project_client.agents.get(agent_name=agent_name)
+            details = await self._project_client.agents.get(agent_name=agent_name)  # type: ignore[attr-defined]
             existing_agent = details.versions.latest
         else:
             raise ValueError("Either name or reference must be provided to get an agent.")

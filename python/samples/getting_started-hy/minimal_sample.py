@@ -17,14 +17,14 @@ import os
 from random import randint
 from typing import Annotated
 
-# 导入dotenv用于.env文件支持
-from dotenv import load_dotenv
-
 from agent_framework import tool
 from agent_framework.openai import OpenAIChatClient
 
+# 导入dotenv用于.env文件支持
+from dotenv import load_dotenv
+
 # 加载.env文件中的环境变量（指定正确路径，override=True 确保覆盖已有的同名环境变量）
-load_dotenv(os.path.join(os.path.dirname(__file__), '.env'), override=True)
+load_dotenv(os.path.join(os.path.dirname(__file__), ".env"), override=True)
 
 
 # NOTE: approval_mode="never_require" is for sample brevity. Use "always_require" in production; see samples/getting_started/tools/function_tool_with_approval.py and samples/getting_started/tools/function_tool_with_approval_and_threads.py.
@@ -50,13 +50,13 @@ tencent_api_key = os.getenv("TENCENT_HUNYUAN_API_KEY")
 if not tencent_api_key:
     print("⚠️  请先设置腾讯云API密钥：")
     print("方式一：创建.env文件并添加：")
-    print("TENCENT_HUNYUAN_API_KEY=\"your-actual-api-key\"")
+    print('TENCENT_HUNYUAN_API_KEY="your-actual-api-key"')
     print("方式二：设置环境变量：")
-    print("export TENCENT_HUNYUAN_API_KEY=\"your-actual-api-key\"")
+    print('export TENCENT_HUNYUAN_API_KEY="your-actual-api-key"')
     print("然后重新运行此脚本。")
     exit(1)
 else:
-    print(f"✅ API密钥已设置")
+    print("✅ API密钥已设置")
 
 # 创建腾讯云混元大模型客户端
 agent = OpenAIChatClient(

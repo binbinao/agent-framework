@@ -1,10 +1,10 @@
 # Copyright (c) Microsoft. All rights reserved.
 
-"""腾讯云混元大模型 Anthropic 兼容接口集成。"""
+"""腾讯云混元大模型 Anthropic 兼容接口集成."""
 
 import importlib.metadata
 
-from ._chat_client import HunyuanAnthropicClient, HunyuanAnthropicChatOptions, HunyuanAnthropicSettings
+from ._chat_client import HunyuanAnthropicChatOptions, HunyuanAnthropicClient, HunyuanAnthropicSettings
 
 try:
     __version__ = importlib.metadata.version(__name__)

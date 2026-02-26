@@ -15,12 +15,11 @@ API 端点：
 """
 
 import sys
-from collections.abc import Awaitable, Mapping, Sequence
-from typing import Any, ClassVar, Generic, TypedDict
+from collections.abc import Mapping, Sequence
+from typing import ClassVar, Generic
 
 from agent_framework import (
     ChatAndFunctionMiddlewareTypes,
-    ChatOptions,
     FunctionInvocationConfiguration,
     get_logger,
 )
@@ -223,8 +222,13 @@ class HunyuanOpenAIChatClient(OpenAIChatClient[THunyuanOpenAIChatOptions]):
             resolved_base_url,
         )
 
+        # 将 SecretStr 转换为 str
+        api_key_value = (
+            resolved_api_key.get_secret_value() if isinstance(resolved_api_key, SecretStr) else resolved_api_key
+        )
+
         super().__init__(
-            api_key=resolved_api_key,
+            api_key=api_key_value,
             model_id=resolved_model_id,
             base_url=resolved_base_url,
             async_client=async_client,

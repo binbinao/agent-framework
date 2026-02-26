@@ -5,7 +5,10 @@ import uuid
 
 from agent_framework.azure import AzureAIProjectAgentProvider
 from azure.ai.projects.aio import AIProjectClient
-from azure.ai.projects.models import MemoryStoreDefaultDefinition, MemoryStoreDefaultOptions
+from azure.ai.projects.models import (
+    MemoryStoreDefaultDefinition,  # type: ignore[attr-defined]
+    MemoryStoreDefaultOptions,  # type: ignore[attr-defined]
+)
 from azure.identity.aio import AzureCliCredential
 
 """
@@ -39,7 +42,7 @@ async def main() -> None:
                 options=MemoryStoreDefaultOptions(user_profile_enabled=True, chat_summary_enabled=True),
             )
 
-            memory_store = await project_client.memory_stores.create(
+            memory_store = await project_client.memory_stores.create(  # type: ignore[attr-defined]
                 name=memory_store_name,
                 description="Memory store for Agent Framework conversations",
                 definition=memory_store_definition,
@@ -80,7 +83,7 @@ async def main() -> None:
 
         # Clean up - delete the memory store
         async with AIProjectClient(endpoint=endpoint, credential=credential) as project_client:
-            await project_client.memory_stores.delete(memory_store_name)
+            await project_client.memory_stores.delete(memory_store_name)  # type: ignore[attr-defined]
             print("Memory store deleted")
 
 

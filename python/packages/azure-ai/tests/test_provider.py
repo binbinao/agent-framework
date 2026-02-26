@@ -8,14 +8,22 @@ from agent_framework import ChatAgent, FunctionTool
 from agent_framework._mcp import MCPTool
 from agent_framework.exceptions import ServiceInitializationError
 from azure.ai.projects.aio import AIProjectClient
-from azure.ai.projects.models import (
-    AgentReference,
-    AgentVersionDetails,
-    PromptAgentDefinition,
-)
-from azure.ai.projects.models import (
-    FunctionTool as AzureFunctionTool,
-)
+
+try:
+    from azure.ai.projects.models import (
+        AgentReference,
+        AgentVersionDetails,
+        PromptAgentDefinition,
+    )
+    from azure.ai.projects.models import (
+        FunctionTool as AzureFunctionTool,
+    )
+
+    _azure_ai_types_available = True
+except (ImportError, AttributeError):
+    _azure_ai_types_available = False
+    pytest.skip("Azure AI types not available in current SDK version", allow_module_level=True)
+
 from azure.identity.aio import AzureCliCredential
 
 from agent_framework_azure_ai import AzureAIProjectAgentProvider

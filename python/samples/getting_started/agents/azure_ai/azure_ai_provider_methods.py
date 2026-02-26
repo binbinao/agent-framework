@@ -8,7 +8,7 @@ from typing import Annotated
 from agent_framework import tool
 from agent_framework.azure import AzureAIProjectAgentProvider
 from azure.ai.projects.aio import AIProjectClient
-from azure.ai.projects.models import AgentReference, PromptAgentDefinition
+from azure.ai.projects.models import AgentReference, PromptAgentDefinition  # type: ignore[attr-defined]
 from azure.identity.aio import AzureCliCredential
 from pydantic import Field
 
@@ -80,7 +80,7 @@ async def get_agent_by_name_example() -> None:
         AIProjectClient(endpoint=os.environ["AZURE_AI_PROJECT_ENDPOINT"], credential=credential) as project_client,
     ):
         # First, create an agent using the SDK directly
-        created_agent = await project_client.agents.create_version(
+        created_agent = await project_client.agents.create_version(  # type: ignore[attr-defined]
             agent_name="TestAgentByName",
             description="Test agent for get_agent by name example.",
             definition=PromptAgentDefinition(
@@ -102,7 +102,7 @@ async def get_agent_by_name_example() -> None:
             print(f"Agent: {result}\n")
         finally:
             # Clean up the agent
-            await project_client.agents.delete_version(
+            await project_client.agents.delete_version(  # type: ignore[attr-defined]
                 agent_name=created_agent.name, agent_version=created_agent.version
             )
 
@@ -120,7 +120,7 @@ async def get_agent_by_reference_example() -> None:
         AIProjectClient(endpoint=os.environ["AZURE_AI_PROJECT_ENDPOINT"], credential=credential) as project_client,
     ):
         # First, create an agent using the SDK directly
-        created_agent = await project_client.agents.create_version(
+        created_agent = await project_client.agents.create_version(  # type: ignore[attr-defined]
             agent_name="TestAgentByReference",
             description="Test agent for get_agent by reference example.",
             definition=PromptAgentDefinition(
@@ -143,7 +143,7 @@ async def get_agent_by_reference_example() -> None:
             print(f"Agent: {result}\n")
         finally:
             # Clean up the agent
-            await project_client.agents.delete_version(
+            await project_client.agents.delete_version(  # type: ignore[attr-defined]
                 agent_name=created_agent.name, agent_version=created_agent.version
             )
 
@@ -210,7 +210,7 @@ async def as_agent_example() -> None:
         AIProjectClient(endpoint=os.environ["AZURE_AI_PROJECT_ENDPOINT"], credential=credential) as project_client,
     ):
         # Create an agent using the SDK directly - this returns AgentVersionDetails
-        agent_version_details = await project_client.agents.create_version(
+        agent_version_details = await project_client.agents.create_version(  # type: ignore[attr-defined]
             agent_name="TestAgentAsAgent",
             description="Test agent for as_agent example.",
             definition=PromptAgentDefinition(
@@ -233,7 +233,7 @@ async def as_agent_example() -> None:
             print(f"Agent: {result}\n")
         finally:
             # Clean up the agent
-            await project_client.agents.delete_version(
+            await project_client.agents.delete_version(  # type: ignore[attr-defined]
                 agent_name=agent_version_details.name, agent_version=agent_version_details.version
             )
 
