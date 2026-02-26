@@ -48,19 +48,18 @@
 
 ### 1.3 与同类框架的关系
 
-```
-                    ┌─────────────────────────┐
-                    │   Microsoft Agent       │
-                    │   Framework             │
-                    │ (本项目，2025年发布)      │
-                    └───────┬─────────────────┘
-                            │ 继承 / 演进
-              ┌─────────────┼─────────────────┐
-              │                               │
-    ┌─────────▼──────────┐       ┌────────────▼──────────┐
-    │  Semantic Kernel   │       │    AutoGen            │
-    │  (微软早期AI框架)   │       │  (微软多Agent框架)     │
-    └────────────────────┘       └───────────────────────┘
+```mermaid
+graph TD
+    AF[Microsoft Agent Framework<br/>本项目，2025年发布]
+    SK[Semantic Kernel<br/>微软早期AI框架]
+    AG[AutoGen<br/>微软多Agent框架]
+    
+    SK -->|继承/演进| AF
+    AG -->|继承/演进| AF
+    
+    style AF fill:#4CAF50,color:white
+    style SK fill:#2196F3,color:white
+    style AG fill:#FF9800,color:white
 ```
 
 框架提供了从 Semantic Kernel 和 AutoGen 的**迁移指南**，位于：

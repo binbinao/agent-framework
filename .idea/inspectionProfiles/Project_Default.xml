@@ -1,0 +1,51 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="Eslint" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="PyPackageRequirementsInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredPackages">
+        <list>
+          <option value="tf2onnx" />
+          <option value="ai-edge-litert" />
+          <option value="torch" />
+          <option value="jax" />
+          <option value="flax" />
+          <option value="pre-commit" />
+          <option value="namex" />
+          <option value="ruff" />
+          <option value="pytest" />
+          <option value="numpy" />
+          <option value="scipy" />
+          <option value="scikit-learn" />
+          <option value="pillow" />
+          <option value="pandas" />
+          <option value="absl-py" />
+          <option value="requests" />
+          <option value="h5py" />
+          <option value="ml-dtypes" />
+          <option value="protobuf" />
+          <option value="tensorboard-plugin-profile" />
+          <option value="rich" />
+          <option value="build" />
+          <option value="optree" />
+          <option value="pytest-cov" />
+          <option value="packaging" />
+          <option value="dm_tree" />
+          <option value="coverage" />
+          <option value="onnxruntime" />
+          <option value="onnxscript" />
+          <option value="openvino" />
+          <option value="grain" />
+          <option value="orbax-checkpoint" />
+        </list>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="PyStubPackagesAdvertiser" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredPackages">
+        <list>
+          <option value="pandas" />
+        </list>
+      </option>
+    </inspection_tool>
+  </profile>
+</component>
